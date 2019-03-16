@@ -2,26 +2,9 @@
 const Blockchain = require("./blockchain");
 const container = new Blockchain();
 
-const previousBlockhash = "ANTONIOFLAVIOTESTING";
-const currentBlockData = [
-  {
-    container: "ABCCONTEINER123",
-    sender: "JFGKFJGDFG45FGKJ4s",
-    recipient: "4554FDGDFGFDGDF"
-  },
-  {
-    container: "CDECONTEINER456",
-    sender: "GFGDFGDF566565",
-    recipient: "56454GDFGDFGDFGD"
-  },
-  {
-    container: "FGHCONTEINER789",
-    sender: "4545FDGDFGDFGDFFDGF",
-    recipient: "4554FDGFDGDFGDF"
-  }
-];
+console.log(container);
 
-console.log(container.proofOfWork(previousBlockhash, currentBlockData));
+//console.log(container.proofOfWork(previousBlockhash, currentBlockData));
 
 //Pconsole.log(container.hashBlock(previousBlockhash, currentBlockData, nonce));
 
@@ -34,7 +17,7 @@ console.log(container.proofOfWork(previousBlockhash, currentBlockData));
 
 //container.createNewBlock(123123, 'GHJFDGHJFG', 'UDFGDFOGIOFG');
 
-console.log(container);
+//console.log(container);
 
 //console.log("Get last block save");
 //console.log(container.getLastBlock());
