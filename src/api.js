@@ -2,6 +2,11 @@ var express = require("express");
 var app = express();
 const bodyParser = require("body-parser");
 const Blockchain = require("./blockchain");
+const uuid = require("uuid/v1");
+
+const nodeAddress = uuid()
+  .split("-")
+  .join("");
 
 const container = new Blockchain();
 
@@ -15,12 +20,43 @@ app.get("/blockchain", function(req, res) {
 
 //Container transaction
 app.post("/transaction", function(req, res) {
-  console.log(req.body);
-  res.send("Testing Postman");
+  const blockIndex = container.createNewTransaction(
+    req.body.container,
+    req.body.sender,
+    req.body.recipient
+  );
+  res.json({ note: "Transaction will be added in block:  " + blockIndex });
 });
 
-//Terminal consensus
-app.post("/consensus", function(req, res) {});
+//Terminal accept block
+app.post("/blockAccept", function(req, res) {
+  const lastBlock = container.getLastBlock();
+  const previousBlockHash = lastBlock["hash"];
+  const currentBlockData = {
+    transactions: container.pendingTransactions,
+    index: lastBlock["index"] + 1
+  };
+
+  const nonce = container.proofOfWork(previousBlockHash, currentBlockData);
+  const blockHash = container.hashBlock(
+    previousBlockHash,
+    currentBlockData,
+    nonce
+  );
+
+  container.createNewTransaction("ABCCONTEINER", "00", nodeAddress);
+
+  const newBlock = container.createNewBlock(
+    nonce,
+    previousBlockHash,
+    blockHash
+  );
+
+  res.json({
+    note: "New block accept sucessfully",
+    block: newBlock
+  });
+});
 
 app.listen(3000, function() {
   console.log("Listening on port 3000...");
