@@ -29,7 +29,7 @@ app.post("/transaction", function(req, res) {
 });
 
 //Terminal accept block
-app.post("/blockAccept", function(req, res) {
+app.get("/blockAccept", function(req, res) {
   const lastBlock = container.getLastBlock();
   const previousBlockHash = lastBlock["hash"];
   const currentBlockData = {
